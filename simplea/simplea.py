@@ -42,17 +42,6 @@ def read_csv_file(filename_provided, some_callback_provided):
 		print("File not found in specified path");
 		
 
-
-
-#jsnvdjks = EmailProvided("aditya.shylesh@hotmail.com", 
-#					     "1123581321345589_$RRs", 
-#					     "aditya.manjushashylesh@gmail.com", 
-#					     "bksdjf", 
-#					     "kjdsgbskdjgb", 
-#					     "")
-
-#jsnvdjks.sendEmail()
-
-#fnjds.add_email(EmailDetails("aditya.manjushashylesh@gmail.com", "jndskfnsd", "fknskdjfnksjd", ['kjsdv.pdf']))
-
 read_csv_file(filename_provided, process_row_from_file_provided)
+
+send_emails_from_details.join()
