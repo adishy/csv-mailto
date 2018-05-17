@@ -11,6 +11,9 @@
     <OutputPath>.</OutputPath>
     <Name>simplea</Name>
     <RootNamespace>simplea</RootNamespace>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <CommandLineArguments>somedetails.csv email_content.html "Some text" aditya.shylesh@hotmail.com 0 1 2</CommandLineArguments>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,7 +24,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="module1.py">
+    <Compile Include="csvemail.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="simplea.py" />
