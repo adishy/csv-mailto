@@ -1,47 +1,30 @@
-import csv
-
-from threading import Thread
-
 from module1 import *
-
-
 
 filename_provided = 'cnaj.csv'
 
-email_subject = 'Some text here'
+EMAIL_SUBJECT = 'This is some subject'
 
-text = 'Hello {}, Some text'
+EMAIL_TEXT = '<p>Hello {}<h1>This is some title</h1><a href=\'github.com/adishy\'>This is a link in the email</a>'
 
-email_sender = Emailer("aditya.shylesh@hotmail.com", 
-				"1123581321345589_$RRs")
+email_sender = Emailer('aditya.shylesh@hotmail.com', 
+					   '1123581321345589_$RRs')
 
-send_emails_from_details = Thread(target = email_sender.send_emails, 
-			   args = ())
+EMAIL_COLUMN = 0
 
-send_emails_from_details.start()
+NAME_COLUMN = 1
+
+ATTACHMENTS_COLUMN = 2
 
 def get_email_data(some_given_text):
-	return str.format(text, some_given_text)
+	return str.format(EMAIL_TEXT, some_given_text)
 
 def process_row_from_file_provided(some_row_provided):
-	email_sender.add_email(EmailDetails(some_row_provided[0], 
-										email_subject, 
-										get_email_data(some_row_provided[1]), 
-										[some_row_provided[2]]))
-
-def read_csv_file(filename_provided, some_callback_provided):
-	try:
-		somefile = open(filename_provided, 'r')
-
-		read_csv_provided = csv.reader(somefile)
-
-		for some_row in read_csv_provided:
-			some_callback_provided(some_row)
-
-	except FileNotFoundError:
-		print("File not found in specified path");
+	email_sender.send(EmailDetails(some_row_provided[EMAIL_COLUMN], 
+								   EMAIL_SUBJECT,
+								   get_email_data(some_row_provided[NAME_COLUMN]), 
+								   some_row_provided[ATTACHMENTS_COLUMN].split(",")))
 		
 
 read_csv_file(filename_provided, process_row_from_file_provided)
 
-send_emails_from_details.join()
+print('Sent to recipients in file: ' + filename_provided)
