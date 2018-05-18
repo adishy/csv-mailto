@@ -9,6 +9,12 @@ from email import encoders
 import tkinter as tk
 from tkinter import messagebox 
 
+OUTPUT_LOG_WINDOW = ''
+
+def showoutputlogwindow():
+	globals()['OUTPUT_LOG_WINDOW'] = tk.Toplevel()
+	globals()['OUTPUT_LOG_WINDOW'].grab_set()
+
 def read_csv_file(filename_provided, some_callback_provided):
 	try:
 		somefile = open(filename_provided, 'r')
@@ -21,24 +27,6 @@ def read_csv_file(filename_provided, some_callback_provided):
 	except FileNotFoundError:
 		messagebox.showerror("Error", "File not found in: " + filename_provided)
 		print('File not found in: ' + filename_provided);
-
-def njksdf():
-		self.OUTPUT_LOG_WINDOW = tk.Toplevel()
-		self.OUTPUT_LOG_WINDOW.grab_set()
-
-		self.OUTPUT_LOG_FRAME = tk.Frame(self.OUTPUT_LOG_WINDOW,
-										 height = 15, 
-										 width = 10, 
-										 bd = 1, 
-										 padx=4, 
-										 pady=4)
-
-
-		self.OUTPUT_LOG_FRAME.grid(row = 0, column=0, columnspan=5)
-
-		print("Logging in: " + self.sender_email)
-		
-		tk.Label(self.OUTPUT_LOG_FRAME, text = "Logging in: " + self.sender_email).grid(row = 0, column=0, columnspan=5)
 
 class EmailDetails:
 	def __init__(self, 
@@ -58,12 +46,15 @@ class Emailer:
 	def __init__(self, 
 				sender_email_provided, 
 				sender_password_provided, 
-				smtp_server_provided = ''):
+				smtp_server_provided = '', 
+				output_log_callback_provided = {}):
 		self.sender_email = sender_email_provided
 		self.sender_password = sender_password_provided
 		self.smtp_server = smtp_server_provided
 
-		print(self.smtp_server)
+		self.output_log_callback = output_log_callback_provided
+
+		self.output_log_callback["OUTPUT_LOG_LOGGING_IN"](self.sender_email)
 
 		self.server = smtplib.SMTP(self.smtp_server)
 		self.server.ehlo()
@@ -72,10 +63,16 @@ class Emailer:
 		try:
 			self.server.login(self.sender_email, 
 							  self.sender_password)
-			print("Logged in")
+			
+			self.output_log_callback["OUTPUT_LOG_LOGGED_IN"]()
+
+			#tk.Label(self.OUTUPUT_LOG_FRAME, text = 'Logged in')
+			#print("Logged in")
 		except:
-			messagebox.showerror("Error", "Could not login with credentials provided")
-			print("Could not login with credentials provided")
+
+			self.output_log_callback["OUTPUT_LOG_LOGIN_ERROR"]()
+			#messagebox.showerror("Error", "Could not login with credentials provided")
+			#print("Could not login with credentials provided")
 
 	def create_msg_string(self, some_email_provided):
 		msg = MIMEMultipart()
@@ -84,7 +81,11 @@ class Emailer:
 		msg['Subject'] = some_email_provided.subject_text
 
 		while(len(some_email_provided.filepaths)):
-			print("Attaching file: " + some_email_provided.filepaths[len(some_email_provided.filepaths) -1] + " for recipient: " + some_email_provided.receiver_email_address)
+			
+			self.output_log_callback["OUTPUT_LOG_ATTACHING_FILE"](some_email_provided.filepaths[len(some_email_provided.filepaths) -1], 
+																  some_email_provided.receiver_email_address)
+
+			#print("Attaching file: " + some_email_provided.filepaths[len(some_email_provided.filepaths) -1] + " for recipient: " + some_email_provided.receiver_email_address)
 
 			try:
 				some_file = open(some_email_provided.filepaths[len(some_email_provided.filepaths) -1], 'rb')
@@ -92,10 +93,18 @@ class Emailer:
 												   Name=basename(some_email_provided.filepaths[len(some_email_provided.filepaths) -1]))
 				some_file.close()
 				msg.attach(some_attach_data)
-				print("Attached file: " + some_email_provided.filepaths[len(some_email_provided.filepaths) -1] + " for recipient: " + some_email_provided.receiver_email_address)
+	
+				self.output_log_callback["OUTPUT_LOG_ATTACHED_FILE"](some_email_provided.filepaths[len(some_email_provided.filepaths) -1], 
+																	 some_email_provided.receiver_email_address)
+
+				#print("Attached file: " + some_email_provided.filepaths[len(some_email_provided.filepaths) -1] + " for recipient: " + some_email_provided.receiver_email_address)
 
 			except FileNotFoundError:
-				print("Did not attach file: " + some_email_provided.filepaths[len(some_email_provided.filepaths) -1])
+				
+				self.output_log_callback["OUTPUT_LOG_ATTACHING_FILE_ERROR"](some_email_provided.filepaths[len(some_email_provided.filepaths) -1], 
+																			some_email_provided.receiver_email_address)
+
+				#print("Did not attach file: " + some_email_provided.filepaths[len(some_email_provided.filepaths) -1])
 				print("File does not exist at: " + some_email_provided.filepaths[len(some_email_provided.filepaths) -1]) 
 
 			some_email_provided.filepaths.pop()
@@ -105,12 +114,22 @@ class Emailer:
 		return msg.as_string()
 
 	def send(self, some_email_provided):
-		print("Sending email to: " + some_email_provided.receiver_email_address)
+
+		self.output_log_callback["OUTPUT_LOG_SENDING_RECIPIENT_EMAIL"](some_email_provided.receiver_email_address)
+
+		#print("Sending email to: " + some_email_provided.receiver_email_address)
 
 		try:
 			self.server.sendmail(self.sender_email, 
 								 some_email_provided.receiver_email_address, 
 								 self.create_msg_string(some_email_provided))
-			print("Sent email to: " + some_email_provided.receiver_email_address)
+
+			
+			self.output_log_callback["OUTPUT_LOG_EMAIL_SEND"](some_email_provided.receiver_email_address)
+
+			#print("Sent email to: " + some_email_provided.receiver_email_address)
 		except:
-			print("Could not send email to: " + some_email_provided.receiver_email_address)
+			
+			self.output_log_callback["OUTPUT_LOG_EMAIL_SEND_ERROR"](some_email_provided.receiver_email_address)
+
+			#print("Could not send email to: " + some_email_provided.receiver_email_address)

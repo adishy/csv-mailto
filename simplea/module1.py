@@ -2,8 +2,7 @@ import tkinter as tk
 from tkinter import filedialog
 from simplea import *
 
-def mailfromfileprovided():
-	print(globals()['EMAIL_SMTP_ENTRY_TEXT'].get())
+def mailfromfileprovided():     
 	csvmail(globals()['USER_EMAIL_ENTRY_TEXT'].get(), 
 			globals()['USER_PASSWORD_ENTRY_TEXT'].get(), 
 			globals()['EMAIL_SMTP_ENTRY_TEXT'].get(), 
@@ -12,7 +11,8 @@ def mailfromfileprovided():
 			globals()['EMAIL_FILENAME_SELECTED'].get(), 
 			int(globals()['EMAIL_ID_COLUMN_ENTRY_TEXT'].get()), 
 			int(globals()['FILE_ATTACHMENTS_ENTRY_TEXT'].get()), 
-			globals()['SUBSTITUTION_IN_COLUMN'])
+			globals()['SUBSTITUTION_IN_COLUMN'],
+			globals()['LOG_OUTPUT_FILE_SELECTED'].get())
 
 def get_substitution_input():
 	SUBSTITUTION_BUTTON_FRAME = tk.Frame(globals()['SUBSTITUTIONS_FRAME'], height = 4, 
@@ -349,7 +349,8 @@ LOG_OUTPUT_FILE_SELECTOR = tk.Button(LOG_OUTPUT_FILE_FRAME,
 							  text='Select Location', 
 							  command= lambda: LOG_OUTPUT_FILE_SELECTED.set(
 											   filedialog.asksaveasfilename(
-											   filetypes=(("CSV files","*.csv")))), 
+											   filetypes=(("CSV files","*.csv"),
+														  ("all files","*.*")))), 
 							  anchor=tk.W, 
 							  justify=tk.LEFT)
 
