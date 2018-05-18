@@ -4,42 +4,7 @@ import getpass
 
 from csvemail import *
 
-def outputlog_logging_in(sender_email_provided):
-	print("Logging in: " + sender_email_provided)
-
-def outputlog_logged_in():
-	print("Logged in")
-
-def outputlog_login_error():
-	print("Could not login with credentials provided")
-
-def outputlog_attaching_file(filename_provided, recipient_email_provided):
-	print("Attaching file: " + filename_provided + " for recipient: " + recipient_email_provided)
-
-def outputlog_attached_file(filename_provided, recipient_email_provided):
-	print("Attached file: " + filename_provided + " for recipient: " + recipient_email_provided)
-
-def outputlog_attaching_file_error(filename_provided, recipient_email_provided):
-	print("Did not attach file: " + filename_provided + " for recipient: " + recipient_email_provided)
-
-def outputlog_sending_recipient_email(recipient_email_provided):
-	print("Sending email to: " + recipient_email_provided)
-
-def outputlog_email_send(recipient_email_provided):
-	print("Sent email to: " + recipient_email_provided)
-
-def outputlog_email_send_error(recipient_email_provided):
-	print("Could not send email to: " + recipient_email_provided)
-
-outputlogcallback = {"OUTPUT_LOG_LOGGING_IN" : outputlog_logging_in, 
-			         "OUTPUT_LOG_LOGGED_IN" : outputlog_logged_in,
-			         "OUTPUT_LOG_LOGIN_ERROR" : outputlog_login_error,
-			         "OUTPUT_LOG_ATTACHING_FILE" : outputlog_attaching_file,
-			         "OUTPUT_LOG_ATTACHED_FILE" : outputlog_attached_file,
-			         "OUTPUT_LOG_ATTACHING_FILE_ERROR" : outputlog_attaching_file_error,
-			         "OUTPUT_LOG_SENDING_RECIPIENT_EMAIL" : outputlog_sending_recipient_email,
-			         "OUTPUT_LOG_EMAIL_SEND" : outputlog_email_send,
-			         "OUTPUT_LOG_EMAIL_SEND_ERROR" : outputlog_email_send_error}
+from module2 import *
 
 def csvmail(USER_EMAIL, 
 			USER_PASSWORD, 
@@ -53,7 +18,8 @@ def csvmail(USER_EMAIL,
 
 	email_sender = Emailer(USER_EMAIL, 
 						   USER_PASSWORD, 
-						   EMAIL_SMTP, outputlogcallback)
+						   EMAIL_SMTP, 
+						   globals()['outputlogcallback'])
 
 	EMAIL_TEXT = 'Text'
 
