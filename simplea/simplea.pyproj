@@ -25,6 +25,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="module2.py">
+      <SubType>Code</SubType>
+    </Compile>
     <None Include="csvemail.py">
       <SubType>Code</SubType>
     </None>

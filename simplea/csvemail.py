@@ -6,7 +6,9 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email.mime.application import MIMEApplication
 from email import encoders
- 
+import tkinter as tk
+from tkinter import messagebox 
+
 def read_csv_file(filename_provided, some_callback_provided):
 	try:
 		somefile = open(filename_provided, 'r')
@@ -17,7 +19,26 @@ def read_csv_file(filename_provided, some_callback_provided):
 			some_callback_provided(some_row)
 
 	except FileNotFoundError:
+		messagebox.showerror("Error", "File not found in: " + filename_provided)
 		print('File not found in: ' + filename_provided);
+
+def njksdf():
+		self.OUTPUT_LOG_WINDOW = tk.Toplevel()
+		self.OUTPUT_LOG_WINDOW.grab_set()
+
+		self.OUTPUT_LOG_FRAME = tk.Frame(self.OUTPUT_LOG_WINDOW,
+										 height = 15, 
+										 width = 10, 
+										 bd = 1, 
+										 padx=4, 
+										 pady=4)
+
+
+		self.OUTPUT_LOG_FRAME.grid(row = 0, column=0, columnspan=5)
+
+		print("Logging in: " + self.sender_email)
+		
+		tk.Label(self.OUTPUT_LOG_FRAME, text = "Logging in: " + self.sender_email).grid(row = 0, column=0, columnspan=5)
 
 class EmailDetails:
 	def __init__(self, 
@@ -37,16 +58,15 @@ class Emailer:
 	def __init__(self, 
 				sender_email_provided, 
 				sender_password_provided, 
-				email_list_provided = [], 
-				smtp_server_provided = 'smtp-mail.outlook.com:587'):
-		self.email_send_close = False
+				smtp_server_provided = ''):
 		self.sender_email = sender_email_provided
 		self.sender_password = sender_password_provided
-		self.email_list = email_list_provided
 		self.smtp_server = smtp_server_provided
 
-		print("Logging in: " + self.sender_email)
+		print(self.smtp_server)
+
 		self.server = smtplib.SMTP(self.smtp_server)
+		self.server.ehlo()
 		self.server.starttls()
 
 		try:
@@ -54,10 +74,8 @@ class Emailer:
 							  self.sender_password)
 			print("Logged in")
 		except:
+			messagebox.showerror("Error", "Could not login with credentials provided")
 			print("Could not login with credentials provided")
-	
-	def close_send_emails(self):
-		self.email_send_close = True
 
 	def create_msg_string(self, some_email_provided):
 		msg = MIMEMultipart()
@@ -79,7 +97,7 @@ class Emailer:
 			except FileNotFoundError:
 				print("Did not attach file: " + some_email_provided.filepaths[len(some_email_provided.filepaths) -1])
 				print("File does not exist at: " + some_email_provided.filepaths[len(some_email_provided.filepaths) -1]) 
-					   
+
 			some_email_provided.filepaths.pop()
 
 		msg.attach(MIMEText(some_email_provided.email_data, 'html'))
