@@ -66,10 +66,13 @@ from csvemail import *
 #print('Sent to: ' + str(ROWS_IN_FILE_PROVIDED) + ' recipients in file: ' + filename_provided)
 
 def get_email_content(EMAIL_TEXT_PROVIDED, SUBSTITUTIONS_PROVIDED, SOME_ROW_PROVIDED):
+	EMAIL_TEXT_WITH_SUBSTITUTIONS = EMAIL_TEXT_PROVIDED
 	for i in SUBSTITUTIONS_PROVIDED:
-		EMAIL_TEXT_PROVIDED.replace(i[0].get(), SOME_ROW_PROVIDED[int(i[1].get())])
+		CONTENT_TO_SUBSTITUTE = i[0].get()
+		CONTENT_SUBSTITUTION = SOME_ROW_PROVIDED[int(i[1].get())]
+		EMAIL_TEXT_WITH_SUBSTITUTIONS.replace(CONTENT_TO_SUBSTITUTE, CONTENT_SUBSTITUTION)
 
-	return EMAIL_TEXT_PROVIDED
+	return EMAIL_TEXT_WITH_SUBSTITUTIONS
 
 def csvmail(USER_EMAIL, 
 			USER_PASSWORD, 
@@ -81,9 +84,9 @@ def csvmail(USER_EMAIL,
 			ATTACHMENTS_COLUMN, 
 			SUBSTITUTIONS_IN_COLUMN):
 
-	email_sender = Emailer(USER_EMAIL, 
-						   USER_PASSWORD, 
-						   EMAIL_SMTP)
+	#email_sender = Emailer(USER_EMAIL, 
+	#					   USER_PASSWORD, 
+	#					   EMAIL_SMTP)
 
 	EMAIL_TEXT = 'Text'
 
@@ -96,13 +99,14 @@ def csvmail(USER_EMAIL,
 		exit(1)
 
 	def process_row_from_file_provided(some_row_provided):
-		email_sender.send(EmailDetails(some_row_provided[EMAIL_COLUMN], 
-									   EMAIL_SUBJECT,
-									   get_email_content(EMAIL_TEXT, SUBSTITUTIONS_IN_COLUMN, some_row_provided), 
-									   some_row_provided[ATTACHMENTS_COLUMN].split(",")))
+		print(get_email_content(EMAIL_TEXT, SUBSTITUTIONS_IN_COLUMN, some_row_provided))
+		#email_sender.send(EmailDetails(some_row_provided[EMAIL_COLUMN], 
+		#							   EMAIL_SUBJECT,
+		#							   get_email_content(EMAIL_TEXT, SUBSTITUTIONS_IN_COLUMN, some_row_provided), 
+		#							   some_row_provided[ATTACHMENTS_COLUMN].split(",")))
 		
 
 	read_csv_file(CSV_FILENAME, process_row_from_file_provided)
 
 
-#csvmail("aditya.shylesh@hotmail.com", "1123581321345589_$RRs", "smtp-mail.outlook.com:587", "somedetails.csv", "This is some text", "email_content.html", 0, 2, [('<employee-name>', 1)])
+#csvmail("aditya.shylesh@hotmail.com", "", "smtp-mail.outlook.com:587", "somedetails.csv", "This is some text", "email_content.html", 0, 2, [('<employee-name>', 1)])
