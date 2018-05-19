@@ -1,21 +1,39 @@
 import tkinter as tk
 from tkinter import filedialog
+from threading import Thread
 from simplea import *
 
-def mailfromfileprovided():    
-	print(globals()['LOG_OUTPUT_FILE_SELECTED'].get())
-	globals()['OUTPUT_FILENAME'] = globals()['LOG_OUTPUT_FILE_SELECTED'].get()
-	csvmail(globals()['USER_EMAIL_ENTRY_TEXT'].get(), 
-			globals()['USER_PASSWORD_ENTRY_TEXT'].get(), 
-			globals()['EMAIL_SMTP_ENTRY_TEXT'].get(), 
-			globals()['CSV_FILENAME_SELECTED'].get(), 
-			globals()['EMAIL_SUBJECT_ENTRY_TEXT'].get(), 
-			globals()['EMAIL_FILENAME_SELECTED'].get(), 
-			int(globals()['EMAIL_ID_COLUMN_ENTRY_TEXT'].get()), 
-			globals()['ATTACHMENT_PATH_SELECTED'].get(), 
-			int(globals()['FILE_ATTACHMENTS_ENTRY_TEXT'].get()), 
-			globals()['SUBSTITUTION_IN_COLUMN'],
-			globals()['LOG_OUTPUT_FILE_SELECTED'].get())
+#def mailfromfileprovided():
+#	tk.Listbox(globals()['root'], name = 'list').pack(fill=tk.BOTH)
+#	csvmail(globals()['USER_EMAIL_ENTRY_TEXT'].get(), 
+#			globals()['USER_PASSWORD_ENTRY_TEXT'].get(), 
+#			globals()['EMAIL_SMTP_ENTRY_TEXT'].get(), 
+#			globals()['CSV_FILENAME_SELECTED'].get(), 
+#			globals()['EMAIL_SUBJECT_ENTRY_TEXT'].get(), 
+#			globals()['EMAIL_FILENAME_SELECTED'].get(), 
+#			int(globals()['EMAIL_ID_COLUMN_ENTRY_TEXT'].get()), 
+#			globals()['ATTACHMENT_PATH_SELECTED'].get(), 
+#			int(globals()['FILE_ATTACHMENTS_ENTRY_TEXT'].get()), 
+#			globals()['SUBSTITUTION_IN_COLUMN'],
+#			globals()['LOG_OUTPUT_FILE_SELECTED'].get())
+
+OUTPUT_LOG_DISPLAY = False
+
+def mailfromfileprovided():
+	if not OUTPUT_LOG_DISPLAY:
+		tk.Listbox(globals()['root'], name = 'list').pack(fill=tk.BOTH)
+
+	Thread(target = csvmail, args = (globals()['USER_EMAIL_ENTRY_TEXT'].get(),
+										  globals()['USER_PASSWORD_ENTRY_TEXT'].get(),
+										  globals()['EMAIL_SMTP_ENTRY_TEXT'].get(), 
+										  globals()['CSV_FILENAME_SELECTED'].get(), 
+										  globals()['EMAIL_SUBJECT_ENTRY_TEXT'].get(), 
+										  globals()['EMAIL_FILENAME_SELECTED'].get(), 
+										  int(globals()['EMAIL_ID_COLUMN_ENTRY_TEXT'].get()),
+										  globals()['ATTACHMENT_PATH_SELECTED'].get(), 
+										  int(globals()['FILE_ATTACHMENTS_ENTRY_TEXT'].get()),
+										  globals()['SUBSTITUTION_IN_COLUMN'],
+										  globals()['LOG_OUTPUT_FILE_SELECTED'].get())).start()
 
 def get_substitution_input():
 	SUBSTITUTION_BUTTON_FRAME = tk.Frame(globals()['SUBSTITUTIONS_FRAME'], height = 4, 

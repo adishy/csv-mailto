@@ -54,8 +54,6 @@ class Emailer:
 
 		self.output_log_callback = output_log_callback_provided
 
-		#self.output_log_callback["OUTPUT_LOG_START_WINDOW"]()
-
 		self.server = ''
 
 		self.login_smtp()
