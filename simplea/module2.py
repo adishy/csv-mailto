@@ -25,7 +25,7 @@ def outputlog_start_window():
 
 
 def outputlog_logging_in(sender_email_provided):
-	print("Logging in: " + sender_email_provided)
+	#print("Logging in: " + sender_email_provided)
 
 	OUTPUT_LOG_LOGGING_IN_FRAME = tk.Frame(globals()['OUTPUT_LOG_FRAME'], 
 										   height = 4, 
@@ -41,7 +41,7 @@ def outputlog_logging_in(sender_email_provided):
 
 
 def outputlog_logged_in():
-	print("Logged in")
+	#print("Logged in")
 	OUTPUT_LOG_LOGGED_IN_FRAME = tk.Frame(globals()['OUTPUT_LOG_FRAME'], 
 										   height = 4, 
 										   width = 5, 
@@ -55,32 +55,32 @@ def outputlog_logged_in():
 			 text= "Logged in").pack(side = tk.LEFT)
 
 def outputlog_login_error():
-	print("Could not login with credentials provided")
+	#print("Could not login with credentials provided")
 	messagebox.showerror("Error", "Could not login with credentials provided")
 
 def outputlog_attaching_file(filename_provided, recipient_email_provided):
-	print("Attaching file: " + filename_provided + " for recipient: " + recipient_email_provided)
-	globals()['OUTPUT_LOG_RECIPIENT_LIST'].insert("Attaching file: " + filename_provided + " for recipient: " + recipient_email_provided)
+	#print("Attaching file: " + filename_provided + " for recipient: " + recipient_email_provided)
+	globals()['OUTPUT_LOG_RECIPIENT_LIST'].insert(tk.END, "Attaching file: " + filename_provided + " for recipient: " + recipient_email_provided)
 
 def outputlog_attached_file(filename_provided, recipient_email_provided):
-	print("Attached file: " + filename_provided + " for recipient: " + recipient_email_provided)
-	globals()['OUTPUT_LOG_RECIPIENT_LIST'].insert("Attached file: " + filename_provided + " for recipient: " + recipient_email_provided)
+	#print("Attached file: " + filename_provided + " for recipient: " + recipient_email_provided)
+	globals()['OUTPUT_LOG_RECIPIENT_LIST'].insert(tk.END, "Attached file: " + filename_provided + " for recipient: " + recipient_email_provided)
 
 def outputlog_attaching_file_error(filename_provided, recipient_email_provided):
-	print("Did not attach file: " + filename_provided + " for recipient: " + recipient_email_provided)
-	globals()['OUTPUT_LOG_RECIPIENT_LIST'].insert("Did not attach file: " + filename_provided + " for recipient: " + recipient_email_provided)
+	#print("Did not attach file: " + filename_provided + " for recipient: " + recipient_email_provided)
+	globals()['OUTPUT_LOG_RECIPIENT_LIST'].insert(tk.END, "Did not attach file: " + filename_provided + " for recipient: " + recipient_email_provided)
 	
 def outputlog_sending_recipient_email(recipient_email_provided):
-	print("Sending email to: " + recipient_email_provided)
-	globals()['OUTPUT_LOG_RECIPIENT_LIST'].insert("Sending email to: " + recipient_email_provided)
+	#print("Sending email to: " + recipient_email_provided)
+	globals()['OUTPUT_LOG_RECIPIENT_LIST'].insert(tk.END, "Sending email to: " + recipient_email_provided)
 
 def outputlog_email_send(recipient_email_provided):
-	print("Sent email to: " + recipient_email_provided)
-	globals()['OUTPUT_LOG_RECIPIENT_LIST'].insert("Sent email to: " + recipient_email_provided)
+	#print("Sent email to: " + recipient_email_provided)
+	globals()['OUTPUT_LOG_RECIPIENT_LIST'].insert(tk.END, "Sent email to: " + recipient_email_provided)
 
 def outputlog_email_send_error(recipient_email_provided):
-	print("Could not send email to: " + recipient_email_provided)
-	globals()['OUTPUT_LOG_RECIPIENT_LIST'].insert("Could not send email to: " + recipient_email_provided)
+	#print("Could not send email to: " + recipient_email_provided)
+	globals()['OUTPUT_LOG_RECIPIENT_LIST'].insert(tk.END, "Could not send email to: " + recipient_email_provided)
 
 outputlogcallback = {"OUTPUT_LOG_START_WINDOW" : outputlog_start_window,
 					 "OUTPUT_LOG_LOGGING_IN" : outputlog_logging_in, 
