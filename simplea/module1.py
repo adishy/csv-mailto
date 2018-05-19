@@ -2,7 +2,9 @@ import tkinter as tk
 from tkinter import filedialog
 from simplea import *
 
-def mailfromfileprovided():     
+def mailfromfileprovided():    
+	print(globals()['LOG_OUTPUT_FILE_SELECTED'].get())
+	globals()['OUTPUT_FILENAME'] = globals()['LOG_OUTPUT_FILE_SELECTED'].get()
 	csvmail(globals()['USER_EMAIL_ENTRY_TEXT'].get(), 
 			globals()['USER_PASSWORD_ENTRY_TEXT'].get(), 
 			globals()['EMAIL_SMTP_ENTRY_TEXT'].get(), 
@@ -10,6 +12,7 @@ def mailfromfileprovided():
 			globals()['EMAIL_SUBJECT_ENTRY_TEXT'].get(), 
 			globals()['EMAIL_FILENAME_SELECTED'].get(), 
 			int(globals()['EMAIL_ID_COLUMN_ENTRY_TEXT'].get()), 
+			globals()['ATTACHMENT_PATH_SELECTED'].get(), 
 			int(globals()['FILE_ATTACHMENTS_ENTRY_TEXT'].get()), 
 			globals()['SUBSTITUTION_IN_COLUMN'],
 			globals()['LOG_OUTPUT_FILE_SELECTED'].get())
@@ -60,8 +63,7 @@ def select_filename(some_callback_provided, filetypes_provided):
 													  title = "Select file",
 													  filetypes = filetypes_provided))
 
-root = tk.Tk()
-root.title('CSV Mailto')
+
 
 #########################################################################################
 ####################################USER EMAIL###########################################
@@ -264,6 +266,38 @@ EMAIL_ID_COLUMN_LABEL.pack(side=tk.LEFT)
 EMAIL_ID_COLUMN_ENTRY.pack(side=tk.LEFT)
 
 #########################################################################################
+########################################ATTACHMENT PATH##################################
+
+ATTACHMENT_PATH_FRAME = tk.Frame(height = 4, 
+								 width = 5, 
+								 bd = 1, 
+								 padx=4, 
+								 pady=4)
+
+ATTACHMENT_PATH_LABEL = tk.Label(ATTACHMENT_PATH_FRAME, 
+								 text='Select the directory with attachments: ', 
+								 anchor=tk.W, 
+								 justify=tk.LEFT)
+
+ATTACHMENT_PATH_SELECTED = tk.StringVar()
+ATTACHMENT_PATH_SELECTED.set('Current directory')
+
+ATTACHMENT_PATH_FILE_SELECTOR = tk.Button(ATTACHMENT_PATH_FRAME, 
+										  text='Select Directory', 
+										  command= lambda: ATTACHMENT_PATH_SELECTED.set(filedialog.askdirectory()), 
+										  anchor=tk.W, 
+										  justify=tk.LEFT)
+
+
+ATTACHMENT_PATH_SELECTED_LABEL = tk.Label(ATTACHMENT_PATH_FRAME, 
+										  textvariable=ATTACHMENT_PATH_SELECTED)
+
+ATTACHMENT_PATH_FRAME.pack(fill= tk.BOTH)
+ATTACHMENT_PATH_LABEL.pack(side = tk.LEFT)
+ATTACHMENT_PATH_FILE_SELECTOR.pack(side = tk.LEFT)
+ATTACHMENT_PATH_SELECTED_LABEL.pack(side= tk.LEFT)
+
+#########################################################################################
 ########################################ATTACHMENT FILENAME COLUMN#######################
 
 FILE_ATTACHMENTS_FRAME = tk.Frame(height = 4, 
@@ -273,7 +307,7 @@ FILE_ATTACHMENTS_FRAME = tk.Frame(height = 4,
 							pady=4)
 
 FILE_ATTACHMENTS_LABEL = tk.Label(FILE_ATTACHMENTS_FRAME, 
-						  text='Attachment filenames in column: ', 
+						  text='Attachment filepaths in column: ', 
 						  anchor=tk.W, 
 						  justify=tk.LEFT)
 
@@ -343,7 +377,7 @@ LOG_OUTPUT_LABEL = tk.Label(LOG_OUTPUT_FILE_FRAME,
 						  justify=tk.LEFT)
 
 LOG_OUTPUT_FILE_SELECTED = tk.StringVar()
-LOG_OUTPUT_FILE_SELECTED.set('Current directory')
+LOG_OUTPUT_FILE_SELECTED.set('No location selected')
 
 LOG_OUTPUT_FILE_SELECTOR = tk.Button(LOG_OUTPUT_FILE_FRAME, 
 							  text='Select Location', 
@@ -383,4 +417,4 @@ EMAIL_SENDER.pack(side=tk.BOTTOM)
 #########################################################################################
 #########################################################################################
 
-root.mainloop()
+globals()['root'].mainloop()

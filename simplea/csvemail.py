@@ -27,10 +27,16 @@ class EmailDetails:
 				 receiver_email_address_provided, 
 				 subject_text_provided, 
 				 email_data_provided,
+				 attachments_path_provided,
 				 filepaths_provided):
 		self.receiver_email_address = receiver_email_address_provided
 		self.subject_text = subject_text_provided
 		self.email_data = email_data_provided
+		self.attachments_path = attachments_path_provided
+
+		if self.attachments_path == 'Current directory':
+			self.attachments_path = ''
+
 		self.filepaths = filepaths_provided
 
 class Emailer:
@@ -40,19 +46,25 @@ class Emailer:
 	def __init__(self, 
 				sender_email_provided, 
 				sender_password_provided, 
-				smtp_server_provided = '', 
+				smtp_server_provided = '',
 				output_log_callback_provided = {}):
 		self.sender_email = sender_email_provided
 		self.sender_password = sender_password_provided
 		self.smtp_server = smtp_server_provided
 
 		self.output_log_callback = output_log_callback_provided
-		
-		self.output_log_callback["OUTPUT_LOG_START_WINDOW"]()
+
+		#self.output_log_callback["OUTPUT_LOG_START_WINDOW"]()
+
+		self.server = ''
+
+		self.login_smtp()
+
+	def login_smtp(self):
+		self.server = smtplib.SMTP(self.smtp_server)
 
 		self.output_log_callback["OUTPUT_LOG_LOGGING_IN"](self.sender_email)
 
-		self.server = smtplib.SMTP(self.smtp_server)
 		self.server.ehlo()
 		self.server.starttls()
 
@@ -78,7 +90,12 @@ class Emailer:
 																  some_email_provided.receiver_email_address)
 
 			try:
-				some_file = open(some_email_provided.filepaths[len(some_email_provided.filepaths) -1], 'rb')
+				filepath = some_email_provided.attachments_path + '/' + some_email_provided.filepaths[len(some_email_provided.filepaths) -1]
+				
+				if some_email_provided.attachments_path == '':
+					filepath = some_email_provided.filepaths[len(some_email_provided.filepaths) -1]
+
+				some_file = open(filepath, 'rb')
 				some_attach_data = MIMEApplication(some_file.read(), 
 												   Name=basename(some_email_provided.filepaths[len(some_email_provided.filepaths) -1]))
 				some_file.close()
