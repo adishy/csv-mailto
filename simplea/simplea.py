@@ -52,3 +52,5 @@ def csvmail(USER_EMAIL,
 	read_csv_file(CSV_FILENAME, process_row_from_file_provided)
 
 	FUNCTIONS_FOR_OUTPUT.OUTPUT_FILE.close()
+
+	globals()['root'].nametowidget('emailsend.email')['state'] = tk.NORMAL

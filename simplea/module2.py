@@ -111,7 +111,7 @@ class csvoutputfunctions:
 			#self.OUTPUT_LOG_RECIPIENT_LIST.insert(tk.END, "Sent email to: " + recipient_email_provided)
 			self.OUTPUT_FILE_ROW.append('Sent')
 			print(self.OUTPUT_FILE_ROW)
-			self.OUTPUT_LOG_RECIPIENT_LIST.insert(tk.END, ' '.join(self.OUTPUT_FILE_ROW))
+			self.OUTPUT_LOG_RECIPIENT_LIST.insert(tk.END, '   '.join(self.OUTPUT_FILE_ROW))
 			self.OUTPUT_FILE_WRITE.writerow(self.OUTPUT_FILE_ROW)
 			self.OUTPUT_FILE.flush()
 			self.OUTPUT_FILE_ROW = []
@@ -121,7 +121,7 @@ class csvoutputfunctions:
 			#self.OUTPUT_LOG_RECIPIENT_LIST.insert(tk.END, "Could not send email to: " + recipient_email_provided)
 			self.OUTPUT_FILE_ROW.append('Not sent')
 			print(self.OUTPUT_FILE_ROW)
-			self.OUTPUT_LOG_RECIPIENT_LIST.insert(tk.END, ' '.join(self.OUTPUT_FILE_ROW))
+			self.OUTPUT_LOG_RECIPIENT_LIST.insert(tk.END, '   '.join(self.OUTPUT_FILE_ROW))
 			self.OUTPUT_FILE_WRITE.writerow(self.OUTPUT_FILE_ROW)
 			self.OUTPUT_FILE.flush()
 			self.OUTPUT_FILE_ROW = []

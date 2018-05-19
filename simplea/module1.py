@@ -20,6 +20,8 @@ from simplea import *
 OUTPUT_LOG_DISPLAY = False
 
 def mailfromfileprovided():
+	globals()['root'].nametowidget('emailsend.email')['state'] = tk.DISABLED
+
 	if not OUTPUT_LOG_DISPLAY:
 		tk.Listbox(globals()['root'], name = 'list').pack(fill=tk.BOTH)
 
@@ -418,14 +420,17 @@ LOG_OUTPUT_FILE_LABEL.pack(side= tk.LEFT)
 #########################################################################################
 ########################################SEND EMAIL#######################################
 
-EMAIL_SENDER_FRAME = tk.Frame(height = 4, 
-							width = 5, 
-							bd = 1, 
-							padx=4, 
-							pady=4)
+EMAIL_SENDER_FRAME = tk.Frame(globals()['root'],
+							  height = 4, 
+							  width = 5,
+							  name = 'emailsend',
+							  bd = 1, 
+							  padx=4,
+							  pady=4)
 
 EMAIL_SENDER = tk.Button(EMAIL_SENDER_FRAME, 
 							  text='Send to all recipients',  
+							  name = 'email',
 							  command= mailfromfileprovided,
 							  justify=tk.CENTER)
 
