@@ -23,7 +23,14 @@ def mailfromfileprovided():
 	globals()['root'].nametowidget('emailsend.email')['state'] = tk.DISABLED
 
 	if not OUTPUT_LOG_DISPLAY:
-		tk.Listbox(globals()['root'], name = 'list').pack(fill=tk.BOTH)
+		OUTPUT_LOG_LIST_FRAME = tk.Frame(globals()['root'], 
+										 name = 'outputloglistframe')
+		OUTPUT_LOG_LIST_FRAME.pack()
+		OUTPUT_LOG_LIST = tk.Listbox(OUTPUT_LOG_LIST_FRAME, name = 'list', width = 70)
+		OUTPUT_LOG_LIST.pack(fill = tk.BOTH, side=tk.LEFT)
+		OUTPUT_LOG_SCROLL = tk.Scrollbar(OUTPUT_LOG_LIST_FRAME, orient = tk.VERTICAL, command=OUTPUT_LOG_LIST.yview)
+		OUTPUT_LOG_SCROLL.pack(side = tk.LEFT, fill = tk.Y)
+		OUTPUT_LOG_LIST.config(yscrollcommand=OUTPUT_LOG_SCROLL.set)
 
 	Thread(target = csvmail, args = (globals()['USER_EMAIL_ENTRY_TEXT'].get(),
 										  globals()['USER_PASSWORD_ENTRY_TEXT'].get(),

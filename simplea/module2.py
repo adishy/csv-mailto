@@ -31,7 +31,7 @@ class csvoutputfunctions:
 
 		#self.OUTPUT_LOG_RECIPIENT_LIST = tk.Listbox(globals()['root'])
 
-		self.OUTPUT_LOG_RECIPIENT_LIST = globals()['root'].nametowidget('list')
+		self.OUTPUT_LOG_RECIPIENT_LIST = globals()['root'].nametowidget('outputloglistframe.list')
 
 		self.OUTPUT_LOG_RECIPIENT_LIST.pack(fill=tk.BOTH)
 
