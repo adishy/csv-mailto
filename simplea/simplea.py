@@ -54,3 +54,8 @@ def csvmail(USER_EMAIL,
 	FUNCTIONS_FOR_OUTPUT.OUTPUT_FILE.close()
 
 	globals()['root'].nametowidget('emailsend.email')['state'] = tk.NORMAL
+	globals()['root'].nametowidget('csvfileselectframe.csvfileselect')['state'] = tk.NORMAL
+	globals()['root'].nametowidget('emaildataframe.emaildatafileselect')['state'] = tk.NORMAL
+	globals()['root'].nametowidget('attachmentfilenameframe.attachmentfilenameselect')['state'] = tk.NORMAL
+	globals()['root'].nametowidget('substitutionsframe.substitutions')['state'] = tk.NORMAL
+	globals()['root'].nametowidget('outputlogframe.outputlogfilenameselect')['state'] = tk.NORMAL

@@ -50,26 +50,21 @@ class csvoutputfunctions:
 
 	def outputlog_attaching_file(self, filename_provided, recipient_email_provided):
 			print("Attaching file: " + filename_provided + " for recipient: " + recipient_email_provided)
-			#self.OUTPUT_LOG_RECIPIENT_LIST.insert(tk.END, "Attaching file: " + filename_provided + " for recipient: " + recipient_email_provided)
 
 	def outputlog_attached_file(self, filename_provided, recipient_email_provided):
 			print("Attached file: " + filename_provided + " for recipient: " + recipient_email_provided)
-			#self.OUTPUT_LOG_RECIPIENT_LIST.insert(tk.END, "Attached file: " + filename_provided + " for recipient: " + recipient_email_provided)
 			self.OUTPUT_FILE_ROW.append('Attached file')
 
 	def outputlog_attaching_file_error(self, filename_provided, recipient_email_provided):
 			print("Did not attach file: " + filename_provided + " for recipient: " + recipient_email_provided)
-			#self.OUTPUT_LOG_RECIPIENT_LIST.insert(tk.END, "Did not attach file: " + filename_provided + " for recipient: " + recipient_email_provided)
 			self.OUTPUT_FILE_ROW.append('Did not attach file: ' + filename_provided)
 
 	def outputlog_sending_recipient_email(self, recipient_email_provided):
 			print("Sending email to: " + recipient_email_provided)
-			#self.OUTPUT_LOG_RECIPIENT_LIST.insert(tk.END, "Sending email to: " + recipient_email_provided)
 			self.OUTPUT_FILE_ROW.append(recipient_email_provided)
 
 	def outputlog_email_send(self, recipient_email_provided):
 			print("Sent email to: " + recipient_email_provided)
-			#self.OUTPUT_LOG_RECIPIENT_LIST.insert(tk.END, "Sent email to: " + recipient_email_provided)
 			self.OUTPUT_FILE_ROW.append('Sent')
 			print(self.OUTPUT_FILE_ROW)
 			self.OUTPUT_LOG_RECIPIENT_LIST.insert(tk.END, '   '.join(self.OUTPUT_FILE_ROW))
@@ -79,7 +74,6 @@ class csvoutputfunctions:
 
 	def outputlog_email_send_error(self, recipient_email_provided):
 			print("Could not send email to: " + recipient_email_provided)
-			#self.OUTPUT_LOG_RECIPIENT_LIST.insert(tk.END, "Could not send email to: " + recipient_email_provided)
 			self.OUTPUT_FILE_ROW.append('Not sent')
 			print(self.OUTPUT_FILE_ROW)
 			self.OUTPUT_LOG_RECIPIENT_LIST.insert(tk.END, '   '.join(self.OUTPUT_FILE_ROW))

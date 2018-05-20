@@ -1,26 +1,49 @@
 import tkinter as tk
+from tkinter import messagebox
 from tkinter import filedialog
+from time import strftime
 from threading import Thread
 from simplea import *
-
-#def mailfromfileprovided():
-#	tk.Listbox(globals()['root'], name = 'list').pack(fill=tk.BOTH)
-#	csvmail(globals()['USER_EMAIL_ENTRY_TEXT'].get(), 
-#			globals()['USER_PASSWORD_ENTRY_TEXT'].get(), 
-#			globals()['EMAIL_SMTP_ENTRY_TEXT'].get(), 
-#			globals()['CSV_FILENAME_SELECTED'].get(), 
-#			globals()['EMAIL_SUBJECT_ENTRY_TEXT'].get(), 
-#			globals()['EMAIL_FILENAME_SELECTED'].get(), 
-#			int(globals()['EMAIL_ID_COLUMN_ENTRY_TEXT'].get()), 
-#			globals()['ATTACHMENT_PATH_SELECTED'].get(), 
-#			int(globals()['FILE_ATTACHMENTS_ENTRY_TEXT'].get()), 
-#			globals()['SUBSTITUTION_IN_COLUMN'],
-#			globals()['LOG_OUTPUT_FILE_SELECTED'].get())
 
 OUTPUT_LOG_DISPLAY = False
 
 def mailfromfileprovided():
+	OUTPUT_LOG_FILENAME = ''
+
+	if globals()['CSV_FILENAME_SELECTED'].get() == 'No file selected' or globals()['CSV_FILENAME_SELECTED'].get() == '':
+		messagebox.showerror("Error", 
+							 "No CSV file with employee details selected")
+		return
+
+	if globals()['EMAIL_FILENAME_SELECTED'].get() == 'No file selected' or globals()['EMAIL_FILENAME_SELECTED'].get() == '':
+		messagebox.showerror("Error", 
+							 "No file with email content selected")
+		return
+
+	if globals()['ATTACHMENT_PATH_SELECTED'].get() == 'Current directory' or globals()['ATTACHMENT_PATH_SELECTED'].get() == '':
+		messagebox.showinfo("CSV Mailto", 
+							"The attachment directory is set to the current directory")
+
+	if globals()['LOG_OUTPUT_FILE_SELECTED'].get() == 'No location selected' or globals()['LOG_OUTPUT_FILE_SELECTED'].get() == '':
+		OUTPUT_LOG_FILENAME = 'csv-mailto-outputlog-' + strftime("%Y-%m-%d_%H-%M-%S") + '.csv'
+		messagebox.showinfo("CSV Mailto", 
+							"Output log will be saved in the current directory")
+
+	else:
+		OUTPUT_LOG_FILENAME = globals()['LOG_OUTPUT_FILE_SELECTED'].get()
+
 	globals()['root'].nametowidget('emailsend.email')['state'] = tk.DISABLED
+	globals()['root'].nametowidget('csvfileselectframe.csvfileselect')['state'] = tk.DISABLED
+	globals()['root'].nametowidget('emaildataframe.emaildatafileselect')['state'] = tk.DISABLED
+	globals()['root'].nametowidget('attachmentfilenameframe.attachmentfilenameselect')['state'] = tk.DISABLED
+	globals()['root'].nametowidget('substitutionsframe.substitutions')['state'] = tk.DISABLED
+	globals()['root'].nametowidget('outputlogframe.outputlogfilenameselect')['state'] = tk.DISABLED
+
+
+	for i in globals()['SUBSTITUTION_IN_COLUMN']:
+		if int(i[1].get()) < 0:
+			messagebox.showerror("Error", "Invalid column number " + i[1].get() + " provided in substitution: " + i[0].get())
+			return
 
 	if not OUTPUT_LOG_DISPLAY:
 		OUTPUT_LOG_LIST_FRAME = tk.Frame(globals()['root'], 
@@ -42,7 +65,7 @@ def mailfromfileprovided():
 										 globals()['ATTACHMENT_PATH_SELECTED'].get(), 
 										 int(globals()['FILE_ATTACHMENTS_ENTRY_TEXT'].get()),
 										 globals()['SUBSTITUTION_IN_COLUMN'],
-										 globals()['LOG_OUTPUT_FILE_SELECTED'].get())).start()
+										 OUTPUT_LOG_FILENAME)).start()
 
 def get_substitution_input():
 	SUBSTITUTION_BUTTON_FRAME = tk.Frame(globals()['SUBSTITUTIONS_FRAME'], height = 4, 
@@ -169,8 +192,10 @@ EMAIL_SMTP_ENTRY.pack(side=tk.LEFT)
 #########################################################################################
 ##########################################CSV FILE#######################################
 
-CSV_FILE_FRAME = tk.Frame(height = 4, 
+CSV_FILE_FRAME = tk.Frame(globals()['root'],
+						  height = 4, 
 						  width = 5, 
+						  name='csvfileselectframe',
 						  bd = 1, 
 						  padx=4, 
 						  pady=4)
@@ -179,6 +204,7 @@ CSV_FILE_LABEL = tk.Label(CSV_FILE_FRAME,
 						  text='Select the CSV file containing employee data: ')
 
 CSV_FILE_SELECTOR = tk.Button(CSV_FILE_FRAME, 
+							  name='csvfileselect',
 							  text='Select File', 
 							  command= lambda: select_filename(csv_file_select, 
 															   (("CSV files","*.csv"),
@@ -234,8 +260,10 @@ EMAIL_SUBJECT_ENTRY.pack(side=tk.LEFT)
 #########################################################################################
 ########################################EMAIL CONTENT FILE###############################
 
-EMAIL_FILE_FRAME = tk.Frame(height = 4, 
+EMAIL_FILE_FRAME = tk.Frame(globals()['root'],
+							height = 4, 
 							width = 5, 
+							name = 'emaildataframe',
 							bd = 1, 
 							padx=4, 
 							pady=4)
@@ -246,13 +274,14 @@ EMAIL_FILE_LABEL = tk.Label(EMAIL_FILE_FRAME,
 						  justify=tk.LEFT)
 
 EMAIL_FILE_SELECTOR = tk.Button(EMAIL_FILE_FRAME, 
-							  text='Select File', 
-							  command= lambda: select_filename(email_file_select, 
+								name = 'emaildatafileselect',
+								text='Select File', 
+								command= lambda: select_filename(email_file_select, 
 															   (("HTML files","*.html"),
 																("RTF files","*.rtf"),
 																("all files","*.*"))), 
-							  anchor=tk.W, 
-							  justify=tk.LEFT)
+								anchor=tk.W, 
+								justify=tk.LEFT)
 
 EMAIL_FILENAME_SELECTED = tk.StringVar()
 EMAIL_FILENAME_SELECTED.set('No file selected')
@@ -293,8 +322,10 @@ EMAIL_ID_COLUMN_ENTRY.pack(side=tk.LEFT)
 #########################################################################################
 ########################################ATTACHMENT PATH##################################
 
-ATTACHMENT_PATH_FRAME = tk.Frame(height = 4, 
+ATTACHMENT_PATH_FRAME = tk.Frame(globals()['root'],
+								 height = 4, 
 								 width = 5, 
+								 name = 'attachmentfilenameframe',
 								 bd = 1, 
 								 padx=4, 
 								 pady=4)
@@ -308,6 +339,7 @@ ATTACHMENT_PATH_SELECTED = tk.StringVar()
 ATTACHMENT_PATH_SELECTED.set('Current directory')
 
 ATTACHMENT_PATH_FILE_SELECTOR = tk.Button(ATTACHMENT_PATH_FRAME, 
+										  name = 'attachmentfilenameselect',
 										  text='Select Directory', 
 										  command= lambda: ATTACHMENT_PATH_SELECTED.set(filedialog.askdirectory()), 
 										  anchor=tk.W, 
@@ -351,8 +383,10 @@ FILE_ATTACHMENTS_ENTRY.pack(side=tk.LEFT)
 #########################################################################################
 #######################################SUBSTITUTIONS LABEL###############################
 
-OPTIONS_FRAME = tk.Frame(height = 4, 
+OPTIONS_FRAME = tk.Frame(globals()['root'],
+						 height = 4, 
 							width = 5, 
+							name = 'substitutionsframe',
 							bd = 1, 
 							padx=4, 
 							pady=4)
@@ -372,6 +406,7 @@ SUBSTITUTION_IN_COLUMN = []
 
 SUBSTITUTIONS_ADD = tk.Button(OPTIONS_FRAME, 
 							  text='Add substitution',  
+							  name = 'substitutions',
 							  anchor=tk.W,
 							  command= lambda: get_substitution_input(),
 							  justify=tk.LEFT)
@@ -390,8 +425,10 @@ SUBSTITUTIONS_FRAME.pack(fill=tk.BOTH)
 #########################################################################################
 #########################################LOG OUTPUT FILE#################################
 
-LOG_OUTPUT_FILE_FRAME = tk.Frame(height = 4, 
+LOG_OUTPUT_FILE_FRAME = tk.Frame(globals()['root'],
+								 height = 4, 
 								 width = 5, 
+								 name = 'outputlogframe',
 								 bd = 1, 
 								 padx=4, 
 								 pady=4)
@@ -405,6 +442,7 @@ LOG_OUTPUT_FILE_SELECTED = tk.StringVar()
 LOG_OUTPUT_FILE_SELECTED.set('No location selected')
 
 LOG_OUTPUT_FILE_SELECTOR = tk.Button(LOG_OUTPUT_FILE_FRAME, 
+							  name = 'outputlogfilenameselect',
 							  text='Select Location', 
 							  command= lambda: LOG_OUTPUT_FILE_SELECTED.set(
 											   filedialog.asksaveasfilename(
