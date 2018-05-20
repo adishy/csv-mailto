@@ -26,23 +26,23 @@ def mailfromfileprovided():
 		OUTPUT_LOG_LIST_FRAME = tk.Frame(globals()['root'], 
 										 name = 'outputloglistframe')
 		OUTPUT_LOG_LIST_FRAME.pack()
-		OUTPUT_LOG_LIST = tk.Listbox(OUTPUT_LOG_LIST_FRAME, name = 'list', width = 70)
+		OUTPUT_LOG_LIST = tk.Listbox(OUTPUT_LOG_LIST_FRAME, name = 'list', width = 95)
 		OUTPUT_LOG_LIST.pack(fill = tk.BOTH, side=tk.LEFT)
 		OUTPUT_LOG_SCROLL = tk.Scrollbar(OUTPUT_LOG_LIST_FRAME, orient = tk.VERTICAL, command=OUTPUT_LOG_LIST.yview)
 		OUTPUT_LOG_SCROLL.pack(side = tk.LEFT, fill = tk.Y)
 		OUTPUT_LOG_LIST.config(yscrollcommand=OUTPUT_LOG_SCROLL.set)
-
-	Thread(target = csvmail, args = (globals()['USER_EMAIL_ENTRY_TEXT'].get(),
-										  globals()['USER_PASSWORD_ENTRY_TEXT'].get(),
-										  globals()['EMAIL_SMTP_ENTRY_TEXT'].get(), 
-										  globals()['CSV_FILENAME_SELECTED'].get(), 
-										  globals()['EMAIL_SUBJECT_ENTRY_TEXT'].get(), 
-										  globals()['EMAIL_FILENAME_SELECTED'].get(), 
-										  int(globals()['EMAIL_ID_COLUMN_ENTRY_TEXT'].get()),
-										  globals()['ATTACHMENT_PATH_SELECTED'].get(), 
-										  int(globals()['FILE_ATTACHMENTS_ENTRY_TEXT'].get()),
-										  globals()['SUBSTITUTION_IN_COLUMN'],
-										  globals()['LOG_OUTPUT_FILE_SELECTED'].get())).start()
+		
+		Thread(target = csvmail, args = (globals()['USER_EMAIL_ENTRY_TEXT'].get(),
+										 globals()['USER_PASSWORD_ENTRY_TEXT'].get(),
+										 globals()['EMAIL_SMTP_ENTRY_TEXT'].get(), 
+										 globals()['CSV_FILENAME_SELECTED'].get(), 
+										 globals()['EMAIL_SUBJECT_ENTRY_TEXT'].get(), 
+										 globals()['EMAIL_FILENAME_SELECTED'].get(), 
+										 int(globals()['EMAIL_ID_COLUMN_ENTRY_TEXT'].get()),
+										 globals()['ATTACHMENT_PATH_SELECTED'].get(), 
+										 int(globals()['FILE_ATTACHMENTS_ENTRY_TEXT'].get()),
+										 globals()['SUBSTITUTION_IN_COLUMN'],
+										 globals()['LOG_OUTPUT_FILE_SELECTED'].get())).start()
 
 def get_substitution_input():
 	SUBSTITUTION_BUTTON_FRAME = tk.Frame(globals()['SUBSTITUTIONS_FRAME'], height = 4, 

@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import messagebox
 
 root = tk.Tk()
+root.resizable(False, False)
 root.title('CSV Mailto')
 
 class csvoutputfunctions:
@@ -17,19 +18,6 @@ class csvoutputfunctions:
 		self.OUTPUT_FILE_WRITE = csv.writer(self.OUTPUT_FILE, delimiter = ',')
 
 		self.OUTPUT_FILE_ROW = []
-
-		#self.OUTPUT_LOG_WINDOW = ''
-
-		#self.OUTPUT_LOG_FRAME = tk.Frame(globals()['root'], 
-		#									 height = 4, 
-		#									 width = 5, 
-		#									 bd = 1, 
-		#									 padx=4, 
-		#									 pady=4)
-
-		#self.OUTPUT_LOG_FRAME.pack(fill=tk.BOTH)
-
-		#self.OUTPUT_LOG_RECIPIENT_LIST = tk.Listbox(globals()['root'])
 
 		self.OUTPUT_LOG_RECIPIENT_LIST = globals()['root'].nametowidget('outputloglistframe.list')
 
@@ -52,35 +40,11 @@ class csvoutputfunctions:
 	def outputlog_logging_in(self, sender_email_provided):
 		print("Logging in: " + sender_email_provided)
 
-		#OUTPUT_LOG_LOGGING_IN_FRAME = tk.Frame(self.OUTPUT_LOG_FRAME, 
-		#									   height = 4, 
-		#									   width = 5, 
-		#									   bd = 1, 
-		#									   padx=4, 
-		#									   pady=4)
-
-		#OUTPUT_LOG_LOGGING_IN_FRAME.pack(fill=tk.BOTH)
-
-		#tk.Label(OUTPUT_LOG_LOGGING_IN_FRAME, 
-		#		 text= "Logging in: " + sender_email_provided).pack(side = tk.LEFT)
-
 		self.OUTPUT_LOG_RECIPIENT_LIST.insert(tk.END, "Logging in: " + sender_email_provided)
 
 
 	def outputlog_logged_in(self):
 			print("Logged in")
-			#OUTPUT_LOG_LOGGED_IN_FRAME = tk.Frame(self.OUTPUT_LOG_FRAME, 
-			#									  height = 4, 
-			#									  width = 5, 
-			#									  bd = 1, 
-			#									  padx=4, 
-			#									  pady=4)
-
-			#OUTPUT_LOG_LOGGED_IN_FRAME.pack(fill=tk.BOTH)
-
-			#tk.Label(OUTPUT_LOG_LOGGED_IN_FRAME, 
-			#		text= "Logged in").pack(side = tk.LEFT)
-			
 			self.OUTPUT_LOG_RECIPIENT_LIST.insert(tk.END, "Logged in")
 
 	def outputlog_login_error(self):
@@ -94,7 +58,7 @@ class csvoutputfunctions:
 	def outputlog_attached_file(self, filename_provided, recipient_email_provided):
 			print("Attached file: " + filename_provided + " for recipient: " + recipient_email_provided)
 			#self.OUTPUT_LOG_RECIPIENT_LIST.insert(tk.END, "Attached file: " + filename_provided + " for recipient: " + recipient_email_provided)
-			self.OUTPUT_FILE_ROW.append('Attached file: ' + filename_provided)
+			self.OUTPUT_FILE_ROW.append('Attached file')
 
 	def outputlog_attaching_file_error(self, filename_provided, recipient_email_provided):
 			print("Did not attach file: " + filename_provided + " for recipient: " + recipient_email_provided)
