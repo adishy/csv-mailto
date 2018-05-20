@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import messagebox
 
 root = tk.Tk()
+root.iconbitmap(r'CSV-mailto.ico')
 root.resizable(False, False)
 root.title('CSV Mailto')
 
@@ -32,10 +33,6 @@ class csvoutputfunctions:
 								  "OUTPUT_LOG_SENDING_RECIPIENT_EMAIL" : self.outputlog_sending_recipient_email,
 								  "OUTPUT_LOG_EMAIL_SEND" : self.outputlog_email_send,
 								  "OUTPUT_LOG_EMAIL_SEND_ERROR" : self.outputlog_email_send_error}
-
-
-	def outputlog_start_window():
-		print("kskdjnf")
 		
 	def outputlog_logging_in(self, sender_email_provided):
 		print("Logging in: " + sender_email_provided)

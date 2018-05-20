@@ -105,8 +105,6 @@ USER_EMAIL_LABEL = tk.Label(USER_EMAIL_FRAME,
 
 USER_EMAIL_ENTRY_TEXT = tk.StringVar()
 
-USER_EMAIL_ENTRY_TEXT.set('aditya.shylesh@hotmail.com')
-
 USER_EMAIL_ENTRY = tk.Entry(USER_EMAIL_FRAME, textvariable=USER_EMAIL_ENTRY_TEXT, width=25)
 
 USER_EMAIL_FRAME.pack(fill=tk.BOTH)
@@ -156,7 +154,7 @@ EMAIL_SMTP_LABEL = tk.Label(EMAIL_SMTP_FRAME,
 
 EMAIL_SMTP_ENTRY_TEXT = tk.StringVar()
 
-EMAIL_SMTP_ENTRY_TEXT.set('smtp-mail.outlook.com:587')
+EMAIL_SMTP_ENTRY_TEXT.set('mail.ults.in:25')
 
 EMAIL_SMTP_ENTRY = tk.Entry(EMAIL_SMTP_FRAME, 
 							textvariable=EMAIL_SMTP_ENTRY_TEXT, 
