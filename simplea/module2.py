@@ -3,7 +3,6 @@ import tkinter as tk
 from tkinter import messagebox
 
 root = tk.Tk()
-root.iconbitmap(r'CSV-mailto.ico')
 root.resizable(False, False)
 root.title('CSV Mailto')
 
