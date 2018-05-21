@@ -46,6 +46,9 @@ def csvmail(USER_EMAIL,
 
 	def get_email_content(EMAIL_TEXT_PROVIDED, SUBSTITUTIONS_PROVIDED, SOME_ROW_PROVIDED):
 		for i in SUBSTITUTIONS_PROVIDED:
+			if i[0] == '':
+				continue
+
 			EMAIL_TEXT_PROVIDED = EMAIL_TEXT_PROVIDED.replace(i[0].get(), 
 															  SOME_ROW_PROVIDED[int(i[1].get())])
 

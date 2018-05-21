@@ -64,9 +64,20 @@ def check_error_input_provided():
 		messagebox.showerror("Error", "Invalid CSV file: " + globals()['CSV_FILENAME_SELECTED'].get())
 		return True
 
+	if int(globals()['FILE_ATTACHMENTS_ENTRY_TEXT'].get()) < 0 or int(globals()['FILE_ATTACHMENTS_ENTRY_TEXT'].get()) >= COLUMNS_PROVIDED:
+		messagebox.showerror("Error", "Invalid column number provided for file attachments")
+		return True
+
+	if int(globals()['EMAIL_ID_COLUMN_ENTRY_TEXT'].get()) < 0 or int(globals()['EMAIL_ID_COLUMN_ENTRY_TEXT'].get()) >= COLUMNS_PROVIDED:
+		messagebox.showerror("Error", "Invalid column number provided for email addresses")
+		return True
 
 	for i in globals()['SUBSTITUTION_IN_COLUMN']:
-		if int(i[1].get()) < 0 or int(i[1].get()) >= COLUMNS_PROVIDED:
+		try:
+			if int(i[1].get()) < 0 or int(i[1].get()) >= COLUMNS_PROVIDED:
+				messagebox.showerror("Error", "Invalid column number " + i[1].get() + " provided in substitution: " + i[0].get())
+				return True
+		except:
 			messagebox.showerror("Error", "Invalid column number " + i[1].get() + " provided in substitution: " + i[0].get())
 			return True
 
@@ -76,13 +87,6 @@ def mailfromfileprovided():
 
 	if check_error_input_provided():
 		return
-
-	#globals()['root'].nametowidget('emailsend.email')['state'] = tk.DISABLED
-	#globals()['root'].nametowidget('csvfileselectframe.csvfileselect')['state'] = tk.DISABLED
-	#globals()['root'].nametowidget('emaildataframe.emaildatafileselect')['state'] = tk.DISABLED
-	#globals()['root'].nametowidget('attachmentfilenameframe.attachmentfilenameselect')['state'] = tk.DISABLED
-	#globals()['root'].nametowidget('substitutionsframe.substitutions')['state'] = tk.DISABLED
-	#globals()['root'].nametowidget('outputlogframe.outputlogfilenameselect')['state'] = tk.DISABLED
 
 	disable_select()
 
