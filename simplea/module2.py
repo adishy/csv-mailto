@@ -7,6 +7,22 @@ root.iconbitmap(r'CSV-mailto.ico')
 root.resizable(False, False)
 root.title('CSV Mailto')
 
+def enable_select():
+	globals()['root'].nametowidget('emailsend.email')['state'] = tk.NORMAL
+	globals()['root'].nametowidget('csvfileselectframe.csvfileselect')['state'] = tk.NORMAL
+	globals()['root'].nametowidget('emaildataframe.emaildatafileselect')['state'] = tk.NORMAL
+	globals()['root'].nametowidget('attachmentfilenameframe.attachmentfilenameselect')['state'] = tk.NORMAL
+	globals()['root'].nametowidget('substitutionsframe.substitutions')['state'] = tk.NORMAL
+	globals()['root'].nametowidget('outputlogframe.outputlogfilenameselect')['state'] = tk.NORMAL
+
+def disable_select():
+	globals()['root'].nametowidget('emailsend.email')['state'] = tk.DISABLED
+	globals()['root'].nametowidget('csvfileselectframe.csvfileselect')['state'] = tk.DISABLED
+	globals()['root'].nametowidget('emaildataframe.emaildatafileselect')['state'] = tk.DISABLED
+	globals()['root'].nametowidget('attachmentfilenameframe.attachmentfilenameselect')['state'] = tk.DISABLED
+	globals()['root'].nametowidget('substitutionsframe.substitutions')['state'] = tk.DISABLED
+	globals()['root'].nametowidget('outputlogframe.outputlogfilenameselect')['state'] = tk.DISABLED
+
 class csvoutputfunctions:
 	def __del__ (self):
 		self.OUTPUT_FILE.close()
@@ -46,7 +62,8 @@ class csvoutputfunctions:
 
 	def outputlog_login_error(self):
 			print("Could not login with credentials provided")
-			messagebox.showerror("Error", "Could not login with credentials provided")
+			self.OUTPUT_LOG_RECIPIENT_LIST.insert(tk.END, "Could not login")
+			messagebox.showerror("Error", "Could not login, check credentials and SMTP server provided and make sure there is a working internet connection")
 
 	def outputlog_attaching_file(self, filename_provided, recipient_email_provided):
 			print("Attaching file: " + filename_provided + " for recipient: " + recipient_email_provided)

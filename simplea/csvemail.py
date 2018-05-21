@@ -56,25 +56,31 @@ class Emailer:
 
 		self.server = ''
 
-		self.login_smtp()
+		if not self.login_smtp():
+			raise
 
 	def login_smtp(self):
-		self.server = smtplib.SMTP(self.smtp_server)
 
 		self.output_log_callback["OUTPUT_LOG_LOGGING_IN"](self.sender_email)
 
-		self.server.ehlo()
-		self.server.starttls()
-
 		try:
+			
+			self.server = smtplib.SMTP(self.smtp_server)
+			self.server.ehlo()
+			self.server.starttls()
+
 			self.server.login(self.sender_email, 
 							  self.sender_password)
 			
 			self.output_log_callback["OUTPUT_LOG_LOGGED_IN"]()
 
+			return True
+
 		except:
 
 			self.output_log_callback["OUTPUT_LOG_LOGIN_ERROR"]()
+
+			return False
 
 	def create_msg_string(self, some_email_provided):
 		msg = MIMEMultipart()
@@ -109,6 +115,8 @@ class Emailer:
 
 				print("File does not exist at: " + some_email_provided.filepaths[len(some_email_provided.filepaths) -1]) 
 
+				raise
+
 			some_email_provided.filepaths.pop()
 
 		msg.attach(MIMEText(some_email_provided.email_data, 'html'))
@@ -120,12 +128,22 @@ class Emailer:
 		self.output_log_callback["OUTPUT_LOG_SENDING_RECIPIENT_EMAIL"](some_email_provided.receiver_email_address)
 
 		try:
-			self.server.sendmail(self.sender_email, 
-								 some_email_provided.receiver_email_address, 
-								 self.create_msg_string(some_email_provided))
+
+			EMAIL_MESSAGE = ''
+
+
+			try:
+				EMAIL_MESSAGE = self.create_msg_string(some_email_provided)
+			
+				self.server.sendmail(self.sender_email, 
+									some_email_provided.receiver_email_address, 
+									EMAIL_MESSAGE)
 
 			
-			self.output_log_callback["OUTPUT_LOG_EMAIL_SEND"](some_email_provided.receiver_email_address)
+				self.output_log_callback["OUTPUT_LOG_EMAIL_SEND"](some_email_provided.receiver_email_address)
+
+			except:
+				self.output_log_callback["OUTPUT_LOG_EMAIL_SEND_ERROR"](some_email_provided.receiver_email_address)
 
 		except:
 			

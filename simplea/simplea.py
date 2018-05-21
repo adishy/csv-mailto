@@ -20,10 +20,16 @@ def csvmail(USER_EMAIL,
 
 	FUNCTIONS_FOR_OUTPUT = csvoutputfunctions(OUTPUT_LOG_FILENAME)
 
-	email_sender = Emailer(USER_EMAIL, 
-						   USER_PASSWORD, 
-						   EMAIL_SMTP,
-						   FUNCTIONS_FOR_OUTPUT.outputlogcallback)
+	email_sender = ''
+
+	try:
+		email_sender = Emailer(USER_EMAIL, 
+							   USER_PASSWORD, 
+							   EMAIL_SMTP,
+							   FUNCTIONS_FOR_OUTPUT.outputlogcallback)
+	except:
+		enable_select()
+		return
 		
 
 	EMAIL_TEXT = 'Text'
@@ -34,6 +40,9 @@ def csvmail(USER_EMAIL,
 
 	except:
 		print('Could not open file: ' + EMAIL_CONTENT_FILENAME)
+		messagebox.showerror("Error", "Could not open: " + EMAIL_CONTENT_FILENAME)
+		enable_select()
+		return
 
 	def get_email_content(EMAIL_TEXT_PROVIDED, SUBSTITUTIONS_PROVIDED, SOME_ROW_PROVIDED):
 		for i in SUBSTITUTIONS_PROVIDED:
@@ -53,9 +62,11 @@ def csvmail(USER_EMAIL,
 
 	FUNCTIONS_FOR_OUTPUT.OUTPUT_FILE.close()
 
-	globals()['root'].nametowidget('emailsend.email')['state'] = tk.NORMAL
-	globals()['root'].nametowidget('csvfileselectframe.csvfileselect')['state'] = tk.NORMAL
-	globals()['root'].nametowidget('emaildataframe.emaildatafileselect')['state'] = tk.NORMAL
-	globals()['root'].nametowidget('attachmentfilenameframe.attachmentfilenameselect')['state'] = tk.NORMAL
-	globals()['root'].nametowidget('substitutionsframe.substitutions')['state'] = tk.NORMAL
-	globals()['root'].nametowidget('outputlogframe.outputlogfilenameselect')['state'] = tk.NORMAL
+	enable_select()
+
+	#globals()['root'].nametowidget('emailsend.email')['state'] = tk.NORMAL
+	#globals()['root'].nametowidget('csvfileselectframe.csvfileselect')['state'] = tk.NORMAL
+	#globals()['root'].nametowidget('emaildataframe.emaildatafileselect')['state'] = tk.NORMAL
+	#globals()['root'].nametowidget('attachmentfilenameframe.attachmentfilenameselect')['state'] = tk.NORMAL
+	#globals()['root'].nametowidget('substitutionsframe.substitutions')['state'] = tk.NORMAL
+	#globals()['root'].nametowidget('outputlogframe.outputlogfilenameselect')['state'] = tk.NORMAL
